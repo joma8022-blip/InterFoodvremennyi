@@ -487,6 +487,65 @@ box-shadow:0 25px 60px rgba(0,0,0,.45)">
 </div>
 </div>
 
+
+
+
+
+
+
+
+// BACK SWIPE / HISTORY SUPPORT
+
+function pushState(page){
+history.pushState({page},'', '');
+}
+
+window.onpopstate=function(){
+
+if(!modal.classList.contains('hidden')){
+closeModal();
+return;
+}
+
+if(!dishes.classList.contains('hidden')){
+goMenu();
+return;
+}
+
+if(!menu.classList.contains('hidden') ||
+!address.classList.contains('hidden') ||
+!contacts.classList.contains('hidden')){
+goHome();
+return;
+}
+};
+
+// обновляем функции
+const oldOpenPage=openPage;
+openPage=function(p){
+oldOpenPage(p);
+pushState(p);
+}
+
+const oldOpenCategory=openCategory;
+openCategory=function(cat){
+oldOpenCategory(cat);
+pushState(cat);
+}
+
+const oldOpenDish=openDish;
+openDish=function(n,p,i,d,w){
+oldOpenDish(n,p,i,d,w);
+pushState(n);
+}
+
+
+
+
+
+
+
+
 <script>
 
 const menuData={
