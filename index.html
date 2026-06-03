@@ -3,129 +3,1186 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sushi Invite — Скоро открытие</title>
+<title>ИнтерУд</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{box-sizing:border-box}
 body{
-font-family:Arial,sans-serif;
-background:#111;color:#fff;
+margin:0;
+font-family:Inter,sans-serif;
+background:#0b0b0d;
+color:#fff;
+background-image:radial-gradient(circle at top right, rgba(230,57,70,.18), transparent 30%);
 }
-.hero{
-min-height:100vh;
-background:
-linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.7)),
-url('https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1400&auto=format&fit=crop');
-background-size:cover;background-position:center;
-padding:30px;
-display:flex;align-items:center;
+header{
+position:sticky;
+top:0;
+z-index:100;
+padding:18px 20px;
+font-size:34px;
+font-weight:700;
+color:#fff;
+background:rgba(10,10,12,.88);
+backdrop-filter:blur(12px);
+border-bottom:1px solid rgba(255,255,255,.08);
+text-align:left;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
-.container{max-width:1100px;margin:auto;width:100%}
-nav{
-display:flex;justify-content:space-between;align-items:center;
-margin-bottom:80px;
+.container{max-width:1200px;margin:auto;padding:18px}
+.btn{
+background:linear-gradient(135deg,#18181c,#26262d);
+border:1px solid rgba(255,255,255,.08);
+border-radius:22px;
+padding:18px;
+margin-bottom:12px;
+cursor:pointer;
+transition:.3s;
+font-weight:600;
+box-shadow:0 10px 30px rgba(0,0,0,.25);
 }
-.logo{font-size:28px;font-weight:bold;color:#e23b3b}
-.menu a{
-color:#fff;text-decoration:none;margin-left:25px;opacity:.9
-}
-.title{
-font-size:70px;font-weight:bold;line-height:1.05;margin-bottom:20px
-}
-.line{
-width:100px;height:3px;background:#d32f2f;margin:20px 0
-}
-.subtitle{font-size:24px;max-width:520px;line-height:1.6;color:#ddd}
-.section{
-background:#f4f1eb;color:#222;padding:70px 25px;text-align:center
-}
-.section h2{font-size:40px;margin-bottom:15px}
-.cards{
+.btn:hover{transform:translateY(-3px)}
+.grid,.dish-grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:25px;
-max-width:1100px;margin:50px auto;
+gap:16px;
+}
+.card,.dish-card{
+background:#141418;
+border:1px solid rgba(255,255,255,.07);
+border-radius:24px;
+overflow:hidden;
+transition:.35s;
+box-shadow:0 15px 35px rgba(0,0,0,.35);
+}
+.card:hover,.dish-card:hover{
+transform:translateY(-8px);
+box-shadow:0 20px 45px rgba(230,57,70,.25);
+}
+.card img,
+.dish-card img{
+width:100%;
+aspect-ratio:1/1;
+object-fit:cover;
+display:block;
+}
+
+.dish-card img[src=""]{
+display:none;
+}
+
+.dish-card:has(img[src=""]){
+min-height:150px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:
+linear-gradient(135deg,#1a1a20,#25252d);
+border:1px solid rgba(255,255,255,.08);
+}
+
+.dish-card:has(img[src=""]) .dish-info{
+width:100%;
+padding:24px;
+flex-direction:column;
+align-items:center;
+text-align:center;
+gap:12px;
+}
+
+.dish-card:has(img[src=""]) h3{
+font-size:20px;
+}
+
+.dish-card:has(img[src=""]) p{
+font-size:18px;
+}
+
+
+.card p{
+font-size:18px;
+font-weight:700;
+padding:14px;
+margin:0;
+color:#fff;
+}
+.tabs{
+position:sticky;
+top:72px;
+display:flex;
+gap:10px;
+overflow:auto;
+padding:10px 0;
+background:#0b0b0d;
+z-index:20;
+}
+.tab{
+padding:10px 16px;
+background:#18181c;
+border-radius:999px;
+white-space:nowrap;
+cursor:pointer;
+border:1px solid rgba(255,255,255,.06);
+}
+.tab.active{
+background:linear-gradient(90deg,#e63946,#ff6b6b);
+color:#fff;
+}
+.dish-info{padding:14px}
+.dish-info h3{margin:0 0 6px;font-size:16px}
+.dish-info p{margin:0;color:#ff6b6b;font-weight:700}
+.section-title{
+color:#ff6b6b;
+font-size:22px;
+margin:25px 0 14px;
+}
+.modal{
+position:fixed;
+inset:0;
+background:#0b0b0d;
+padding:16px;
+z-index:9999;
+overflow:auto;
+}
+.modal img{
+width:100%;
+aspect-ratio:1/1;
+max-height:300px;
+object-fit:cover;
+border-radius:24px;
+display:block;
+}
+.modal-overlay{
+position:absolute;
+bottom:0;
+left:0;
+right:0;
+padding:24px;
+background:linear-gradient(to top,rgba(0,0,0,.85),transparent);
+border-radius:26px;
+}
+#modalDesc,#modalWeight{
+color:#ddd;
+font-size:15px;
+line-height:1.6;
+}
+.back{
+display:inline-block;
+padding:10px 16px;
+background:#18181c;
+border-radius:16px;
+margin-bottom:14px;
+cursor:pointer;
+}
+.hidden{display:none}
+.whatsapp-btn{
+position:fixed;
+right:20px;
+bottom:20px;
+left:auto;
+transform:none;
+background:linear-gradient(90deg,#25D366,#1aa952);
+padding:16px 22px;
+border-radius:18px;
+color:#fff;
+text-decoration:none;
+font-weight:700;
+box-shadow:0 15px 35px rgba(0,0,0,.4);
+}
+</style>
+
+<style>
+header:after{
+content:'';
+display:block;
+height:3px;
+margin-top:12px;
+background:linear-gradient(90deg,#e63946,#ff8a80,transparent);
+border-radius:20px;
+}
+.card,.dish-card{
+backdrop-filter:blur(10px);
+}
+.card img,.dish-card img{
+transition:.45s;
+}
+.card:hover img,.dish-card:hover img{
+transform:scale(1.06);
+}
+.dish-card{
+position:relative;
+}
+.dish-info{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+}
+.dish-info h3{
+font-size:15px;
+font-weight:700;
+color:#fff;
+}
+.dish-info p{
+font-size:17px;
+padding:6px 10px;
+background:rgba(230,57,70,.12);
+border-radius:12px;
+}
+.modal-content{
+background:#141418;
+margin-top:16px;
+padding:18px;
+border-radius:22px;
+border:1px solid rgba(255,255,255,.08);
+}
+</style>
+
+<style>
+body{
+background:
+radial-gradient(circle at top right, rgba(230,57,70,.18), transparent 30%),
+linear-gradient(180deg,#070709,#111116);
 }
 .card{
-background:#fff;padding:30px;border-radius:18px;
-box-shadow:0 10px 30px rgba(0,0,0,.08)
+position:relative;
+overflow:hidden;
 }
-.card h3{margin-bottom:10px}
-.notice{
-max-width:800px;margin:40px auto;
-border:2px solid #ccc;padding:30px;border-radius:14px;
-background:#fff;
+.card:before{
+content:'';
+position:absolute;
+inset:0;
+background:linear-gradient(to top,rgba(0,0,0,.5),transparent);
+z-index:1;
 }
-footer{
-background:#0d0d0d;color:#ddd;text-align:center;padding:35px
+.card p{
+position:relative;
+z-index:2;
+margin-top:-70px;
+font-size:20px;
+text-shadow:0 4px 12px rgba(0,0,0,.7);
 }
-.socials{font-size:26px;margin-bottom:15px}
-@media(max-width:700px){
-.title{font-size:48px}
-nav{flex-direction:column;gap:15px}
-.menu a{margin:0 10px}
+.card img{
+aspect-ratio:1/1;
+height:auto;
+}
+.section-title{
+border-left:4px solid #e63946;
+padding-left:12px;
+}
+.whatsapp-btn{
+border-radius:22px;
+font-size:16px;
 }
 </style>
 </head>
+
 <body>
 
-<section class="hero">
-<div class="container">
-<nav>
-<div class="logo">🍣 SUSHI INVITE</div>
-<div class="menu">
-<a href="#">О нас</a>
-<a href="#">Меню</a>
-<a href="#">Детали</a>
-<a href="#">Контакты</a>
-</div>
-</nav>
+<header>ИнтерФуд</header>
 
-<div>
-<h1 class="title">Скоро<br>открытие!</h1>
-<div class="line"></div>
-<p class="subtitle">
-Наш сайт находится в стадии приготовления. Совсем скоро вы сможете узнать больше о меню, акциях и новостях.
+<div style="padding:20px;max-width:1200px;margin:auto">
+<div style="
+background:
+linear-gradient(rgba(10,10,12,.45),rgba(10,10,12,.85)),
+url('https://images.unsplash.com/photo-1579871494447-9811cf80d66c');
+background-size:cover;
+background-position:center;
+border-radius:34px;
+padding:60px 35px;
+border:1px solid rgba(255,255,255,.08);
+box-shadow:0 25px 60px rgba(0,0,0,.45)">
+<h1 style="margin:0;font-size:48px;color:#fff">ИнтерФуд</h1>
+<p style="color:#ddd;font-size:20px;max-width:520px">
+Суши • Донер • Пицца • Блюдо на углях • Быстрая доставка и любимые блюда
 </p>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:18px">
+<div style="background:#e63946;padding:14px 22px;border-radius:18px;font-weight:700">🔥 Популярное меню</div>
+<div style="background:rgba(255,255,255,.08);padding:14px 22px;border-radius:18px">🚚 Доставка</div>
 </div>
-</div>
-</section>
-
-<section class="section">
-<h2>Дорогие гости!</h2>
-<p>Мы готовим для вас что‑то особенное.</p>
-
-<div class="cards">
-<div class="card">
-<h3>🍱 Меню</h3>
-<p>Авторские роллы и блюда японской кухни.</p>
-</div>
-
-<div class="card">
-<h3>🐟 Качество</h3>
-<p>Свежие продукты и лучшие ингредиенты.</p>
-</div>
-
-<div class="card">
-<h3>☕ Атмосфера</h3>
-<p>Уютное место для ценителей вкуса.</p>
-</div>
-
-<div class="card">
-<h3>📰 Новости</h3>
-<p>Акции, события и специальные предложения.</p>
 </div>
 </div>
 
-<div class="notice">
-<h3>📍 Мы скоро откроемся</h3>
-<p>Следите за новостями и оставайтесь с нами.</p>
+
+
+<div id="home" class="container">
+  <div class="btn" onclick="openPage('menu')">🍽 Меню</div>
+  <div class="btn" onclick="openPage('address')">📍 Адрес</div>
+  <div class="btn" onclick="openPage('contacts')">📞 Контакты</div>
 </div>
-</section>
 
-<footer>
-<div class="socials">Instagram • WhatsApp • Telegram</div>
-<p>Спасибо, что вы с нами ❤️</p>
-</footer>
+<div id="menu" class="container hidden">
+  <div class="back" onclick="goHome()">← Назад</div>
+  <div class="grid">
+    <div class="card" onclick="openCategory('Суши Роллы')"><img src="img/роллы/роллы обложка.jpg"><p>Суши Роллы</p></div>
 
+
+
+
+  <div class="card" onclick="openCategory('Донер')"><img src="img/донер обложка.jpg"><p>Донер</p></div>
+
+
+<div class="card" onclick="openCategory('Шашлык')"><img src="img/блюдо на углях обложка.jpg"><p>Шашлык</p></div>
+
+    <div class="card" onclick="openCategory('Салаты и Супы')"><img src="img/суп обложка.jpg"><p>Салаты и Супы</p></div>
+
+    <div class="card" onclick="openCategory('Пицца')"><img src="img/пицца обложка.jpg"><p>Пицца</p></div>
+
+    <div class="card" onclick="openCategory('Снеки')"><img src="img/снеки обложка.jpg"><p>Снеки</p></div>
+
+    <div class="card" onclick="openCategory('Напитки')"><img src="img/напитки обложка.jpg"><p>Напитки</p></div>
+
+
+<div class="card" onclick="openCategory('Выпечки')"><img src="img/выпечки обложка.jpg"><p>Выпечки</p></div>
+
+
+
+  </div>
+</div>
+
+<div id="dishes" class="container hidden">
+  <div class="back" onclick="goMenu()">← Назад</div>
+  <h2 id="categoryTitle"></h2>
+  <div id="tabs" class="tabs"></div>
+  <div id="dishList"></div>
+</div>
+
+<!-- АДРЕС -->
+<div id="address" class="container hidden">
+  <div class="back" onclick="goHome()">← Назад</div>
+  <h2>📍 Адрес</h2>
+  <p>Москва, D3 Перово, Кусковский проезд, 1Б</p>
+</div>
+
+<!-- КОНТАКТЫ -->
+<div id="contacts" class="container hidden">
+  <div class="back" onclick="goHome()">← Назад</div>
+  <h2>📞 Контакты</h2>
+  <p>Телефон: +79999244499</p>
+  <p>WhatsApp: +79999244499</p>
+  <p>Instagram: @romansalmanov@gmail.com</p>
+</div>
+<div id="modal" class="modal hidden">
+  <div class="back" onclick="closeModal()">← Назад</div>
+
+ <div class="modal-image">
+  <img id="modalImg">
+  <div class="modal-overlay">
+    <h2 id="modalTitle"></h2>
+    <p id="modalPrice"></p>
+  </div>
+</div>
+
+<!-- ВОТ ЗДЕСЬ СОСТАВ -->
+<div class="modal-content">
+  <p id="modalDesc"></p>
+  <p id="modalWeight"></p>
+</div>
+</div>
+
+<script>
+
+const menuData={
+"Суши Роллы":[
+{title:"роллы",items:[
+{name:"Филадельфия",
+price:"460₽",
+desc:"рис, лосось, огурец, сыр креметте",
+img:"img/филадельфия.jpg"},
+
+{name:"Филадельфия с тунцом",
+price:"460₽",
+desc:"рис, сыр креметто, огурец, тунец",
+img:"img/филадельфия с тунцом4.jpg"},
+
+{name:"Калифорния с крабом",
+price:"460",
+desc:"майонез, авокадо, микс краба, морковь, тобико",
+img:"img/калифорния с крабом4.jpg"},
+
+{name:"Калифорния с лососем",
+price:"460₽",
+desc:"майонез, авокадо, лосось, морковь, тобико",
+img:"img/калифорния с лососем4.jpg"},
+
+
+{name:"Калифорния с угрем",
+price:"460₽",
+desc:"майонез, авокадо, угорь, морковь, тобико",
+img:"img/калифорния с угрем4.jpg"},
+
+
+{name:"ДРАКОН",
+price:"500₽",
+desc:"рис, нори, майонез, морковь, авокадо, лосось, угорь, огурец, соус унаги, белый кунжут",
+img:"img/дракон4.jpg"},
+
+
+{name:"ТАЙСКИЙ",
+price:"500₽",
+desc:"рис, нори, майонез, морковь, лосось, угорь, авокадо, тобико оранжевый, соус унаги, белый кунжут",
+img:"img/тайский4.jpg"},
+
+
+{name:"КАНАДА",
+price:"480₽",
+desc:"рис, сыр креметто, авокадо, угорь, кунжут, соус унаги",
+img:"img/канада4.jpg"},
+
+
+
+{name:"НОРВЕГИЯ",
+price:"460₽",
+desc:"рис, сыр, огурец, авокадо, лосось, угорь, спайси соус",
+img:"img/норвегия4.jpg"},
+
+
+{name:"КИОТО",
+price:"480₽",
+desc:"рис, креветки жареные во фритюре, соус спайси, масаго, огурец",
+img:"img/киото4.jpg"},
+
+{name:"ЦЕЗАРЬ",
+price:"450₽",
+desc:"рис, салат, курица, майонез, огурец, помидоры черри, кунжут",
+img:"img/цезарь4.jpg"},
+
+
+{name:"ТАИГА",
+price:"490₽",
+desc:"рис, сыр, лосось, соус спайси, шнитт-лук, огурец",
+img:"img/тайга4.jpg"},
+
+
+{name:"МОРЕ",
+price:"490₽",
+desc:"сыр, креветка отварная, мидии, масаго малиновый, масаго чёрный, масаго зелёный",
+img:"img/море4.jpg"},
+]},
+
+
+
+
+
+{title:"ХОТ РОЛЛ",items:[
+{name:"МОСКВА",
+price:"500₽",
+desc:"рис, нори, сыр, огурец, авокадо, угорь.лосось кляр панко",
+img:"img/москва4.jpg"},
+
+{name:"ФИЛАДЕЛЬФИЯ",
+price:"500₽",
+desc:"рис, нори, сыр кремето, огурец, лосось, кляр панко",
+img:"img/филадельфия4.jpg"},
+
+{name:"КАЛИФОРНИЯ",
+price:"500₽",
+desc:"майонез, огурец, авокадо, лосось, тобико, кляр панко",
+img:"img/филадельфия4.jpg"},
+
+
+{name:"РОЛЛ С УГРЁМ",
+price:"500₽",
+desc:"рис, нори, сыр кремето, огурец, угорь,кунжут белый, кляр панко ",
+img:"img/роллы с угрем4.jpg"},
+
+{name:"РОЛЛ С КРЕВЕТКАМИ",
+price:"500₽",
+desc:"рис, нори. сыр кремето, огурец.отварной креветка, кляр панко",
+img:"img/роллы с креветками4.jpg"}]},
+
+
+
+
+
+{title:"ЗАПЕЧЕНЫЕ РОЛЛЫ",items:[
+{name:"УГОРЬ",
+price:"380₽",
+desc:"рис, нори, соус спайс, сыр креметто, сыр гауда, огурец",
+img:"img/угорь4.jpg"},
+
+{name:"ТУНЕЦ",
+price:"380₽",
+desc:"рис, нори, соус спайс, сыр креметто, сыр гауда, огурец",
+img:"img/тунец4.jpg"},
+
+{name:"КРЕВЕТКИ",
+price:"380₽",
+desc:"рис, нори, соус спайс, сыр креметто, сыр гауда, огурец",
+img:"img/креветки4.jpg"},
+
+
+{name:"ЛОСОСЬ",
+price:"380₽",
+desc:"рис, нори, соус спайс, сыр креметто, сыр гауда, огурец",
+img:"img/лосось4.jpg"},
+
+{name:"МИДИИ",
+price:"380₽",
+desc:"рис, нори, соус спайс, сыр креметто, сыр гауда, огурец",
+img:"img/миндии4.jpg"}]},
+
+
+
+{title:"ОСТРЫЕ РОЛЛЫ",items:[
+{name:"ЛОСОСЬ, УГОРЬ, КРЕВЕТКА, ГРЕБЕШОК",
+price:"200₽",
+desc:"рис, огурец",
+img:"img/острые роллы4.jpg"}]},
+
+
+
+
+{title:"МИНИ РОЛЛЫ",items:[
+{name:"ЛОСОСЬ, УГОРЬ, ТУНЕЦ, ГРЕБЕШОК, ОГУРЕЦ",
+price:"190₽",
+desc:"рис, огурец",
+img:"img/мини роллы4.jpg"}]},
+
+
+
+
+
+
+
+{title:"СУШИ",items:[
+{name:"ТУНЕЦ, ЛОСОСЬ, УГОРЬ, КРЕВЕТКА, ГРЕБЕШОК, КРАБ, ОКУНЬ, КАЛЬМАР",
+price:"120₽",
+desc:"рис, огурец",
+img:"img/суши4.jpg"}]},
+
+
+
+
+{title:"ГУНКАНЫ",items:[
+{name:"ТУНЕЦ, ЛОСОСЬ, УГОРЬ, КРЕВЕТКА, ГРЕБЕШОК, КРАБ, ТОБИКО, ИКРА, МАССАГО, ОКУНЬ",
+price:"140₽",
+desc:"рис, огурец",
+img:"img/гунканы4.jpg"}]},
+
+
+
+
+{title:"Сашими",items:[
+{name:"УГОРЬ, ЛОСОСЬ, ТУНЕЦ, ГРЕБЕШОК, КРЕВЕТКИ",
+price:"360₽",
+img:"img/сашими4.jpg"}]},
+
+
+
+
+
+
+{title:"Фруктовые роллы",items:[
+{name:"Малиновый фрутовый ролл",
+price:"300₽",
+img:""},
+
+
+{name:"Карамельный фруктовый ролл",
+price:"300₽",
+img:""}
+]}
+],
+
+
+
+
+
+
+
+
+
+"Донер":[{title:"Донер",items:[
+{name:"Донер из говядины",
+price:"350₽",
+desc:"мясо из говядины, капуста пекинская, помидоры, огурцы, соус томатный и чесночный",
+img:"img/донер говядина.jpg"},
+
+{name:"Донер с курицей",price:
+"300₽",
+desc:"курица, капуста пекинская, помидоры, огуры, соус томатный, чесночный",
+img:"img/донер куринный.jpg"},
+
+{name:"донер микс",price:
+"450₽",
+desc:"курица, говядина, капуста пекинская, помидоры, огуры, соус томатный, чесночный",
+img:"img/донер микс.jpg"},
+
+{name:"Фахитос из говядины",price:
+"420₽",
+desc:"говядина, капуста пекинская, помидоры, огурцы, соусы томатный и чесночный, кукуруза, оливки, грибы, сыр",
+img:"img/фахитос говядина.jpg"},
+
+{name:"Фахитос из курицы",price:
+"370₽",
+desc:"курица, капуста пекинская, помидоры, огурцы, соусы томатный и чесночный, кукуруза, оливки, грибы, сыр",
+img:"img/фахитос куринный.jpg"},
+
+
+{name:"Гирос из говядины",
+price:"400₽",
+desc:"говядина, капуста пекинская, помидоры, огурцы, соусы томатный и чесночный, соленые огурцы, картошка фри",
+img:"img/гирос говядина.jpg"},
+
+{name:"Гирос из курицы",price:
+"350₽",
+desc:"курица, капуста пекинская, помидоры, огурцы, соусы томатный и чесночный, соленые огурцы, картошка фри",
+img:"img/гирос куринный.jpg"}]},
+
+
+
+
+
+{title:"Шаурма",items:[
+{name:"шаурма с говядиной",
+price:"350₽",
+desc:"говядина, капуста пекинская помидоры, огурцы, соусы томатный и чесночный",
+img:"img/шаурма говядина.jpg"},
+
+{name:"шаурма из курицы",price:
+"300₽",
+desc:"курица, капуста пекинская помидоры, огурцы, соусы томатный и чесночный",
+img:"img/шаурма куриная.jpg"},
+
+{name:"шаурма микс",price:
+"450₽",
+desc:"курица, говядина, капуста пекинская помидоры, огурцы, соусы томатный и чесночный",
+img:"img/шаурма микс.jpg"},
+
+
+
+{name:"шаурма из курицы в сырном лаваше",price:
+"300₽", 
+desc:"мясо куриное, капуста пекинская, помидоры, соус томатный и чесночный",
+img:"img/шаурма в сырном лаваше куринная.jpg"},
+
+{name:"шаурма из говядины в сырном лаваше",price:
+"350₽", 
+desc:"мясо говядины, капуста пекинская, помидоры, соус томатный и чесночный",
+img:"img/шаурма в сырном лаваше куринная.jpg"}
+]},
+
+
+
+
+
+{title:"на тарелке",items:[
+{name:"на тарелке из говядины",price:
+"800₽",
+desc:"говядина, капуста пекинская, помидоры, огурцы, соусы томатный и чесночный",
+img:"img/на тарелке говядина.jpg"},
+
+{name:"из курицы",price:
+"700₽",
+weight:"250г",
+desc:"курица, капуста пекинская, помидоры, огурцы, соусы томатный и чесночный",
+img:"img/на тарелке курица.jpg"}
+]}
+],
+
+
+
+
+
+
+
+
+
+
+"Сеты":[{title:"Сеты",items:[
+{name:"Сеть с тунцом,",
+price:"1200₽",
+desc:"2 суши тунец, 2 гунканы с тунцом, ролл с тунец, филаделфия с тунцом",
+img:"img/Люля из курицы.jpg"},
+
+
+
+
+
+{name:"Сет Филаделфия",
+price:"1200₽",
+img:"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d"},
+
+
+
+{name:"Сет с угрем",
+price:"1300₽",
+img:"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d"},
+
+
+{name:"Сет большой",
+price:"3000₽",
+img:"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d"},
+
+
+
+
+{name:"Сет Средний",
+price:"2000₽",
+img:"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d"}
+
+]}
+],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"Шашлык":[{title:"Шашлык",items:[
+{name:"Люля из курицы",
+price:"350₽",
+desc:"курица",
+img:"img/люля из курицы.jpg"},
+
+{name:"Люля баранина",
+price:"400₽",
+desc:"баранина",
+img:"img/люля баранина.jpg"},
+
+{name:"Бастурма из телячьей мякоти",
+price:"600₽",
+desc:"телятина",
+img:"img/бастурма из телячьей мякоти.jpg"},
+
+
+{name:"Цыпленок табака на углях",
+price:"700₽",
+desc:"цыпленок",
+img:"img/цыпленок табака на углях.jpg"},
+
+
+{name:"Шашлык из бараниных корейки",
+price:"750₽",
+desc:"баранина",
+img:"img/шашлык из бараниных корейки.jpg"},
+
+
+{name:"Шашлык из бараниных яблоки",
+price:"650₽",
+desc:"баранина",
+img:"img/шашлык из бараниных яблоки.jpg"},
+
+
+{name:"Шашлык из бараниных семечек",
+price:"400₽",
+desc:"баранина",
+img:"img/шашлык из бараньей семечки.jpg"},
+
+
+{name:"Шашлык из бараниных мякоти",
+price:"550₽",
+desc:"баранина",
+img:"img/шашлык из бараниных мякоти.jpg"},
+
+
+{name:"Шашлык из курицы",
+price:"350₽",
+desc:"курица",
+img:"img/шашлык из курицы.jpg"},
+
+
+
+{name:"Люля из картофеля",
+price:"250₽",
+desc:"картофель",
+img:"img/люля из картофеля.jpg"},
+
+
+
+
+{name:"шашлык из картофеля",
+price:"200₽",
+desc:"картофель",
+img:"img/шашлык из картофеля.jpg"},
+
+
+
+
+{name:"Шашлык из шампиньонов",
+price:"250₽",
+desc:"шампиьон",
+img:"img/шашлык из шампиньонов.jpg"},
+
+
+
+{name:"Шашлык из болгарских перца",
+price:"100₽",
+desc:"болгарский перец",
+img:"img/шашлык из болгарских переца.jpg"},
+
+
+
+{name:"Шашлык из помидоров",
+price:"100₽",
+desc:"помидор",
+img:"img/шашлык из помидоров.jpg"}
+
+
+
+
+]}
+],
+
+
+
+
+
+"Салаты и Супы":[{title:"Салаты",items:[
+{name:"ЧУКА",
+price:"400₽",
+desc:"морской водоросли, соус гамадари, белый кунжут, помидоры Черри",
+img:"img/салат чука.jpg"},
+
+
+{name:"КРАБ и АВОКАДО",
+price:"400₽",
+desc:"авокадо, краб, соус спайси икра красная",
+img:"img/салат краб и авокадо.jpg"}
+]},
+
+{title:"Супы",items:[
+{name:"ТОМ ЯМ",
+price:"400₽",
+desc:"креветки, грибы, кальмар, мидии, окунь, имбирь, паста том ям,помидоры черри, кинза, рис",
+img:"img/суп том ям.jpg"},
+
+{name:"МИСО СУП",
+price:"250₽",
+desc:"бульон, мисо паста, сыр тофу, грибы, вакаме, рис, лук-порей, кунжут",
+img:"img/суп мисо суп.jpg"}
+]}
+],
+
+
+
+
+"Пицца":[{title:"Пицца",items:[
+{name:"Пицца с сосисками",
+price:"800₽",
+weight:"30см",
+desc:"сыр моцарелла, сосики, соус фирменный",
+img:"img/пицца-ассорти.jpg"},
+
+{name:"Пицца четыре сыра",
+price:"800₽",
+weight:"30см",
+desc:"сыр моцарелла, соус фирменный",
+img:"img/пицца-четыре-сыра.jpg"},
+
+{name:"Пицца грибная",
+price:"800₽",
+weight:"30см",
+desc:"сыр моцарелла, грибы, соус фирменный",
+img:"img/пицца-с-грибами.jpg"},
+
+{name:"Пицца Маргарита",
+price:"800₽",
+weight:"30см",
+desc:"сыр моцарелла, помидор, соусы фирменные",
+img:"img/пицца-маргарита.jpg"},
+
+{name:"Пицца куриная",
+price:"800₽",
+weight:"см",
+desc:"сыр моцарелла, мясо куриное, болгарский перец, помидоры, соусы фирменные",
+img:"img/пицца-куриная.jpg"},
+
+{name:"Пицца ассорти",
+price:"800₽",
+weight:"30см",
+desc:"сыр моцарелла, пеперони, сосиски, куриное мясо, грибы, перец болгарский, помидоры, соусы фирменные",
+img:"img/пицца-ассорти.jpg"},
+
+{name:"Пицца барбекю",
+price:"800₽",
+weight:"30см",
+desc:"сыр моцарелла, куриное мясо, соус барбекю, соусы фирменные",
+img:"img/пицца-барбекю.jpg"},
+
+
+{name:"Пицца говядина",
+price:"800₽",
+weight:"30см",
+desc:"сыр, мясо говядина, помидор, перец, соус фирменный",
+img:"img/пицца-говядина.jpg"},
+
+
+{name:"Пицца пеперони",
+price:"800₽",
+weight:"30см",
+desc:"сыр, пеперони, соус фирменный",
+img:"img/пицца-пеперони.jpg"}
+
+
+
+
+
+
+]}
+],
+
+
+
+"Снеки":[{title:"Снеки",items:[
+
+{name:"бургер с говядиной",
+price:"350₽",
+desc:"говядина, лист салата, помидор, соленые огурцы, огурцы, сыр чеддер, соус фирменный",
+img:"img/бургер с говядиной.jpg"},
+
+
+{name:"бургер с курицей",
+price:"300₽",
+desc:"курица, лист салата, помидор, соленые огурцы, огурцы, сыр чеддер, соус фирменный",
+img:"img/бургер с курицей.jpg"},
+
+
+
+
+{name:"Картофель фри",
+price:"250₽",
+desc:"картофель, соус с сыром и кетчуп",
+img:"img/картофель фри.jpg"},
+
+{name:"Наггетсы",
+price:"300₽",
+desc:"куриное филе",
+img:"img/наггетсы.jpg"},
+
+{name:"Кольцо кальмара",
+price:"350₽",
+img:"img/кольца кальмара.jpg"}
+
+
+]}
+],
+
+
+
+
+
+
+
+
+
+
+"Напитки":[
+{
+title:"☕ Кофе",
+items:[
+
+{name:"Эспрессо",price:"100₽",img:""},
+{name:"Дабл Эспрессо",price:"130₽",img:""},
+{name:"Декаф Эспрессо",price:"150₽",img:""},
+{name:"Американо",price:"140₽",img:""},
+{name:"Капучино",price:"150₽",img:""},
+{name:"Латте",price:"180₽",img:""},
+{name:"Флейт Уайт",price:"170₽",img:""},
+{name:"Раф",price:"200₽",img:""},
+{name:"Мокачино",price:"200₽",img:""},
+{name:"горячий шоколад",price:"200₽",img:""},
+{name:"какао",price:"150₽",img:""}
+
+]},
+
+{
+title:"🍵 Чай",
+items:[
+
+{name:"Черный чай",price:"60₽",img:""},
+{name:"Зеленый чай",price:"60₽",img:""},
+{name:"ягодный чай",price:"120₽",img:""},
+{name:"чай с облепихой",price:"130₽",img:""},
+{name:"чай черный с смородиной",price:"150₽",img:""},
+{name:"Латте Матча",price:"230₽",img:""}
+
+]},
+
+{
+title:"🧊 Айс Кофе",
+items:[
+
+{name:"Американо",price:"200₽",img:""},
+{name:"Капучино",price:"250₽",img:""},
+{name:"Латте",price:"240₽",img:""},
+{name:"Роаф",price:"270₽",img:""},
+{name:"Бамбл",price:"300₽",img:""},
+{name:"Какао",price:"200₽",img:""},
+{name:"Экспрессо тони",price:"240₽",img:""}
+
+]}
+],
+
+
+
+
+
+
+"Выпечки":[{title:"Торты",items:[
+{name:"Шекербура Бакинская",
+price:"150₽",
+weight:"1штг",
+img:"img/шекербура бакинская.jpg"},
+
+{name:"Пахлава бакинская",
+price:"180₽",
+weight:"1штг",
+img:"img/пахлава бакинская.jpg"},
+
+{name:"Гата восточная",
+price:"90₽",
+weight:"1штг",
+img:"img/гата восточная.jpg"},
+
+{name:"Круассаны с шоколадом и орехами",
+price:"170₽",
+weight:"1штг",
+img:"img/круассан шоколадный орех.jpg"},
+
+
+{name:"Ватрушка с творогом",
+price:"130₽",
+weight:"1штг",
+img:"img/ватрушка с творогом.jpg"},
+
+{name:"Панкейк с варенной сгушенкой",
+price:"50₽",
+weight:"1штг",
+img:"img/панкейк с варенной сгушенкой.jpg"},
+
+
+
+{name:"торт кокосовой ваф",
+price:"270₽",
+weight:"1штг",
+img:"img/торт кокосовой ваф.jpg"},
+
+
+
+{name:"торт медовик",
+price:"200₽",
+weight:"1штг",
+img:"img/торт медовик.jpg"},
+
+
+{name:"торт сметаник",
+price:"200₽",
+weight:"1штг",
+img:"img/торт сметаник.jpg"},
+
+
+
+{name:"Чизкейк классический",
+price:"200₽",
+weight:"1штг",
+img:"img/чизкейк классический.jpg"},
+
+
+{name:"маффин ванильный",
+price:"150₽",
+weight:"1штг",
+img:"img/маффин ванильный.jpg"},
+
+
+{name:"брауни карамель фундук",
+price:"250₽",
+weight:"1штг",
+img:"img/брауни карамель фундук.jpg"},
+
+
+
+{name:"орешки с варенкой сгушенкой",
+price:"30₽",
+weight:"1штг",
+img:"img/орешки с варенкой сгушенкой.jpg"},
+
+
+
+{name:"манго маракуя бомаба",
+price:"230₽",
+weight:"1штг",
+img:"img/манго маракуя бомаба.jpg"},
+
+
+
+{name:"Шоколадная бомба",
+price:"300₽",
+weight:"1штг",
+img:"img/шоколадная бомба.jpg"}
+]}
+]};
+
+
+
+
+
+
+
+
+
+
+function openPage(p){home.classList.add('hidden');document.getElementById(p).classList.remove('hidden')}
+function goHome(){document.querySelectorAll('.container').forEach(e=>e.classList.add('hidden'));home.classList.remove('hidden')}
+function goMenu(){dishes.classList.add('hidden');menu.classList.remove('hidden')}
+
+function openCategory(cat){
+menu.classList.add('hidden');dishes.classList.remove('hidden');
+categoryTitle.innerText=cat;dishList.innerHTML='';tabs.innerHTML='';
+
+menuData[cat].forEach((s,i)=>{
+tabs.innerHTML+=`<div class="tab ${i==0?'active':''}" onclick="scrollToSection(${i})">${s.title}</div>`;
+dishList.innerHTML+=`
+<div id="section-${i}">
+<h3 class="section-title">${s.title}</h3>
+<div class="dish-grid">
+${s.items.map(item=>`
+<div class="dish-card" onclick="openDish(\`${item.name}\`,\`${item.price}\`,\`${item.img}\`,\`${item.desc}\`,\`${item.weight}\`)">
+<img src="${item.img}">
+<div class="dish-info"><h3>${item.name}</h3><p>${item.price}</p></div>
+</div>`).join('')}
+</div>`;
+});
+}
+
+function scrollToSection(i){
+document.getElementById(`section-${i}`).scrollIntoView({behavior:'smooth'});
+document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
+document.querySelectorAll('.tab')[i].classList.add('active');
+}
+
+
+function openDish(n,p,i,d,w){
+  modal.classList.remove('hidden');
+
+  modalTitle.innerText = n;
+  modalPrice.innerText = p;
+  modalImg.src = i;
+
+ if(d && !categoryTitle.innerText.includes('Выпечки')){
+  modalDesc.style.display='block';
+  modalDesc.innerText="Состав: "+d;
+}else{
+  modalDesc.style.display='none';
+}
+  modalWeight.style.display = 'none';
+}function closeModal(){modal.classList.add('hidden')}
+
+</script>
+<a href="https://wa.me/79032561039?text=Здравствуйте! Хочу сделать заказ"
+   class="whatsapp-btn"
+   target="_blank">
+   💬 Заказать
+</a>
 </body>
 </html>
