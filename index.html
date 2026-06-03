@@ -45,8 +45,8 @@ box-shadow:0 10px 30px rgba(0,0,0,.25);
 .btn:hover{transform:translateY(-3px)}
 .grid,.dish-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:16px;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
 }
 .card,.dish-card{
 background:#141418;
@@ -275,7 +275,113 @@ padding-left:12px;
 border-radius:22px;
 font-size:16px;
 }
+
+
+
+
+/* MOBILE OPTIMIZATION */
+@media (max-width:768px){
+
+header{
+font-size:24px;
+padding:14px 16px;
+}
+
+.container{
+padding:12px;
+}
+
+/* категории */
+.grid{
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+/* блюда */
+.dish-grid{
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+.card,
+.dish-card{
+border-radius:18px;
+}
+
+/* квадрат фото */
+.card img,
+.dish-card img{
+aspect-ratio:1/1;
+}
+
+/* карточка категории */
+.card p{
+font-size:15px;
+padding:10px;
+margin-top:-55px;
+}
+
+/* название блюда */
+.dish-info{
+padding:10px;
+gap:6px;
+}
+
+.dish-info h3{
+font-size:13px;
+line-height:1.2;
+}
+
+.dish-info p{
+font-size:14px;
+padding:4px 8px;
+border-radius:10px;
+}
+
+/* подкатегории сверху */
+.tabs{
+top:60px;
+gap:6px;
+padding:8px 0;
+}
+
+.tab{
+padding:7px 12px;
+font-size:13px;
+border-radius:999px;
+}
+
+/* hero блок */
+h1{
+font-size:34px !important;
+}
+
+.hero p{
+font-size:16px;
+}
+
+/* whatsapp */
+.whatsapp-btn{
+right:14px;
+bottom:14px;
+padding:12px 16px;
+font-size:14px;
+border-radius:16px;
+}
+}
+
+
+
 </style>
+
+
+
+
+
+
+
+
+
 </head>
 
 <body>
@@ -315,7 +421,7 @@ box-shadow:0 25px 60px rgba(0,0,0,.45)">
 <div id="menu" class="container hidden">
   <div class="back" onclick="goHome()">← Назад</div>
   <div class="grid">
-    <div class="card" onclick="openCategory('Суши Роллы')"><img src="img/роллы/роллы обложка.jpg"><p>Суши Роллы</p></div>
+    <div class="card" onclick="openCategory('Суши Роллы')"><img src="img/роллы обложка.jpg"><p>Суши Роллы</p></div>
 
 
 
@@ -1179,7 +1285,7 @@ function openDish(n,p,i,d,w){
 }function closeModal(){modal.classList.add('hidden')}
 
 </script>
-<a href="https://wa.me/79032561039?text=Здравствуйте! Хочу сделать заказ"
+<a href="https://wa.me/79999244499?text=Здравствуйте! Хочу сделать заказ"
    class="whatsapp-btn"
    target="_blank">
    💬 Заказать
