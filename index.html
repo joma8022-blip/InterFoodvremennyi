@@ -520,33 +520,9 @@ return;
 }
 };
 
-// обновляем функции
-const oldOpenPage=openPage;
-openPage=function(p){
-oldOpenPage(p);
-pushState(p);
-}
-
-const oldOpenCategory=openCategory;
-openCategory=function(cat){
-oldOpenCategory(cat);
-pushState(cat);
-}
-
-const oldOpenDish=openDish;
-openDish=function(n,p,i,d,w){
-oldOpenDish(n,p,i,d,w);
-pushState(n);
-}
 
 
 
-
-
-
-
-
-<script>
 
 const menuData={
 "Суши Роллы":[
@@ -1343,11 +1319,26 @@ function openDish(n,p,i,d,w){
   modalWeight.style.display = 'none';
 }function closeModal(){modal.classList.add('hidden')}
 
+
+
+const oldOpenPage=openPage;
+openPage=function(p){
+oldOpenPage(p);
+pushState(p);
+}
+
+const oldOpenDish=openDish;
+openDish=function(n,p,i,d,w){
+oldOpenDish(n,p,i,d,w);
+pushState(n);
+}
 </script>
+
 <a href="https://wa.me/79999244499?text=Здравствуйте! Хочу сделать заказ"
    class="whatsapp-btn"
    target="_blank">
    💬 Заказать
 </a>
+
 </body>
 </html>
